@@ -78,7 +78,7 @@ exports.forgotPassword = catchAsyncError(async (req, res, next) => {
   try {
     await sendEmail({
       email: user.email,
-      subject: `Ecommerce Password Recovery`,
+      subject: `Blogging Password Recovery`,
       message,
     });
 
@@ -162,8 +162,6 @@ exports.updatePassword = catchAsyncError(async (req, res, next) => {
   sendToken(user, 200, res);
 });
 
-
-
 // Get all users(admin)
 exports.getAllUser = catchAsyncError(async (req, res, next) => {
   const users = await userModel.find();
@@ -218,7 +216,6 @@ exports.deleteUser = catchAsyncError(async (req, res, next) => {
       new ErrorHandler(`User does not exist with Id: ${req.params.id}`, 400)
     );
   }
-
   res.status(200).json({
     success: true,
     message: "User Deleted Successfully",

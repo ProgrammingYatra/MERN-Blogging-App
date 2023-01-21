@@ -1,5 +1,4 @@
 const express = require("express");
-const { authentication, authorization } = require("../Middleware/auth");
 
 const {
   createBlog,
@@ -8,19 +7,22 @@ const {
   deleteBlog,
   blogByQuery,
 } = require("../Controllers/blogController");
+const { isAuthenticate, authorizeRoles } = require("../middlewares/auth");
 
 const router = express.Router();
 
-router.route("/blogs").post(authentication, createBlog);
-
-router.route("/blogs").get(authentication, getBlogs);
-
-router.route("/blogs/:blogId").patch(authentication, authorization, putBlog);
+router
+  .route("/blogs")
+  .post(isAuthenticate, createBlog)
+  .get(isAuthenticate, getBlogs);
 
 router
   .route("/blogs/:blogId")
-  .delete(authentication, authorization, deleteBlog);
+  .delete(isAuthenticate, deleteBlog)
+  .patch(isAuthenticate, authorizeRoles("admin"), putBlog);
 
-router.route("/blogs/").delete(authentication, authorization, blogByQuery);
+router
+  .route("/blogs/")
+  .delete(isAuthenticate, authorizeRoles("admin"), blogByQuery);
 
 module.exports = router;

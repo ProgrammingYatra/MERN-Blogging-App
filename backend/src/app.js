@@ -1,11 +1,12 @@
 const express = require("express");
 const User = require("./routes/userRoute");
 const Blog = require("./routes/blogRoute");
-const ErrorHandler=require("./Middleware/error")
+const ErrorHandler=require("./middlewares/error")
 const router=express.Router()
 const app = express();
-
+const cookie=require('cookie-parser');
 app.use(express.json());
+app.use(cookie())
 
 app.use(User);
 
